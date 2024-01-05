@@ -77,7 +77,6 @@ export const getAllPosts = async (req, res) => {
     const limit = 5;
     const page = parseInt(req.query.page) || 1;
 
-    console.log(page);
     const startIndex = (page - 1) * limit;
     const endIndex = page * limit;
     const userId = req.params.userId;

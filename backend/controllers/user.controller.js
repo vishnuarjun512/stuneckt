@@ -38,7 +38,6 @@ export const getUser = async (req, res) => {
 export const loginUser = async (req, res) => {
   try {
     const { username, email, password } = req.body;
-    console.log(username, email, password);
     const checkUser = await User.findOne({ $or: [{ username }, { email }] });
     if (!checkUser)
       //If User not found

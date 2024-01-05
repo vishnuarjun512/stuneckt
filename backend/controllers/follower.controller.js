@@ -224,18 +224,18 @@ export const getFollowers = async (req, res) => {
   const startIndex = (page - 1) * limit;
   const endIndex = page * limit;
   try {
-    // Find the user by userId and populate the followers array
     const users = await User.find();
 
+    //Finding the users whose Followers
     const filterNonFollowers = users
-      .filter((user) => user.followers.includes(userId))
+      .filter((user) => user.following.includes(userId))
       .slice(startIndex, endIndex);
 
     if (filterNonFollowers.length == 0) {
       const limitUsersWhenZero = users.slice(0, limit);
       return res.status(200).json({
         error: false,
-        message: "All Users Found Successfully",
+        message: "All Followers Found",
         data: limitUsersWhenZero,
       });
     }
@@ -245,9 +245,11 @@ export const getFollowers = async (req, res) => {
       return res.status(201).json({ error: true, message: "User not found" });
     }
 
-    const limit = res
-      .status(200)
-      .json({ error: false, data: filterNonFollowers });
+    const limit = res.status(200).json({
+      error: false,
+      message: "All Followers Found",
+      data: filterNonFollowers,
+    });
   } catch (error) {
     res.status(201).json({ success: false, message: "Internal Server Error" });
   }
