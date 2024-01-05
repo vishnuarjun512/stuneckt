@@ -2,7 +2,7 @@
 
 This is a [Full Stack Project](https://github.com/vishnuarjun512/stuneckt) project bootstrapped with [`NodeJS`]
 
-## Getting Started
+## Installation
 
 First, install required Dependencies:
 

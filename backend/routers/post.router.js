@@ -5,14 +5,14 @@ import {
   deletePost,
   getAllPosts,
   updatePost,
-  getPost,
+  getUserPost,
 } from "../controllers/post.controller.js";
 import { verifyUser } from "../utils/verifyUser.js";
 
 const router = express.Router();
 
 router.post("/create/:userId", verifyUser, createPost);
-router.get("/getPost/:id", verifyUser, getPost);
+router.get("/getPost/:userId", verifyUser, getUserPost);
 router.get("/getPosts/:userId", verifyUser, getAllPosts);
 router.delete("/deletePost/:id", verifyUser, deletePost);
 router.put("/update/:id", verifyUser, updatePost);

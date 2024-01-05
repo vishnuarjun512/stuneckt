@@ -6,7 +6,8 @@ export default defineConfig({
   plugins: [react()],
   server: {
     proxy: {
-      "/api": "http://localhost:3000",
+      "/api2": "http://localhost:3000",
+      "/api": "https://stuneckt-api.onrender.com",
     },
   },
 });

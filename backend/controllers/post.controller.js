@@ -54,20 +54,36 @@ export const deleteAll = async (req, res) => {
   }
 };
 
-export const getPost = async (req, res) => {
+export const getUserPost = async (req, res) => {
   try {
-    const id = req.params.id;
-    const Post = await Post.findById(id);
+    const limit = 5;
+    const page = parseInt(req.query.page) || 1;
+
+    const startIndex = (page - 1) * limit;
+    const endIndex = page * limit;
+    const userId = req.params.userId;
+    const allPosts = await Post.find({ userRef: userId });
+    const limitPosts = allPosts.slice(startIndex, endIndex);
+
+    if (limitPosts.length == 0) {
+      const limitPostsWhenZero = allPosts.slice(0, limit);
+      return res.status(200).json({
+        error: false,
+        message: "User Posts Found Successfully",
+        data: limitPostsWhenZero,
+      });
+    }
+
     return res.status(200).json({
       error: false,
-      message: "Post Found Successfully",
-      data: Post,
+      message: "User Found Successfully",
+      data: limitPosts,
     });
   } catch (error) {
-    console.log("Post Finding Error -> ", error.message);
+    console.log("All Posts Finding Error -> ", error.message);
     return res.status(404).json({
       error: true,
-      message: `Post Finding Server Error -> ${error.message}`,
+      message: `ALL Posts Finding Server Error -> ${error.message}`,
     });
   }
 };

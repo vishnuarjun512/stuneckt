@@ -36,7 +36,24 @@ const Dashboard = () => {
 
       setAllPosts(res.data.data);
     };
-    fetchPostsAndUsers();
+
+    const fetchUserPosts = async () => {
+      const res = await axios.get(
+        `/api/post/getPost/${userId}?page=${pageCount}`
+      );
+
+      if (res.data.error) {
+        toast.error(res.data.message);
+        return;
+      }
+      setMyPosts(res.data.data);
+    };
+
+    if (myPostsTrigger) {
+      fetchUserPosts();
+    } else {
+      fetchPostsAndUsers();
+    }
   }, [pageCount]);
 
   useEffect(() => {
@@ -93,10 +110,21 @@ const Dashboard = () => {
     fetchPostsAndUsers();
     fetchFollowers();
     fetchUserForm();
-  }, [userId]);
+  }, []);
 
   useEffect(() => {
-    setMyPosts(allPosts.filter((post) => post.userRef === userId));
+    const fetchUserPosts = async () => {
+      const res = await axios.get(
+        `/api/post/getPost/${userId}?page=${pageCount}`
+      );
+
+      if (res.data.error) {
+        toast.error(res.data.message);
+        return;
+      }
+      setMyPosts(res.data.data);
+    };
+    fetchUserPosts();
   }, [myPostsTrigger]);
 
   const followUser = async (toFollow) => {
@@ -398,6 +426,14 @@ const Dashboard = () => {
                     </div>
                   );
                 })}
+              <button
+                onClick={() => {
+                  setPageCount(pageCount + 1);
+                }}
+                className="bg-gray-300"
+              >
+                More
+              </button>
             </div>
           ) : (
             <div className="w-3/5 bg-yellow-400 flex-col flex items-center justify-center gap-2">
